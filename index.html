@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Firebase JS SDK (Compat version) -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth-compat.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    body {font-family: Arial, Helvetica, sans-serif; background-color: lightblue;}
+    h1 {
+      font-family: 'Press Start 2P', system-ui;
+    }
+    button:hover {opacity: 0.8;}
+    .container {padding: 16px;}
+    .modal-content {max-width: 500px; margin: auto;}
+    .imgcontainer img.avatar {width: 40%; border-radius: 50%; margin: 24px 0;}
+    .animate {-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+    @keyframes animatezoom {from {transform: scale(0)} to {transform: scale(1)}}
+  </style>
+</head>
+<body>
+  <h1 class="text-center"></h1>
+  <h1 class="text-center" style="text-decoration: underline;">Treasure Hunters</h1>
+  <form id="register-form" style="max-width:500px;margin:auto">
+    <h2 class="text-center">Register</h2>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+      <input type="email" id="register-email" class="form-control" placeholder="Email" name="email" required>
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="fa fa-key"></i></span>
+      <input type="password" id="register-password" class="form-control" placeholder="Password" name="psw" required>
+    </div>
+
+    <button type="button" id="register-btn" class="btn btn-primary w-100">Register</button>
+  </form>
+
+  
+
+  <form id="login-form" style="max-width:500px;margin:auto;margin-top:20px;">
+      <h2 class="text-center">Login</h2>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+      <input type="email" id="login-email" class="form-control" placeholder="Email" name="email" required>
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="fa fa-key"></i></span>
+      <input type="password" id="login-password" class="form-control" placeholder="Password" name="psw" required>
+    </div>
+
+    <button type="button" id="login-btn" class="btn btn-primary w-100">Login</button>
+  </form>
+
+  <!--<div class="container text-center" style="margin-top:20px;">
+    <p>Or</p>
+    <button id="google-login" class="btn btn-danger w-100"><i class="fa fa-google"></i> Login with Google</button>
+  </div>-->
+
+  <!-- Firebase Auth and Script -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyALAhnbjODzUtK_sXiU_SDItVn5jkdpMAo",
+      authDomain: "gameandweb-74921.firebaseapp.com",
+      projectId: "gameandweb-74921",
+      storageBucket: "gameandweb-74921.appspot.com",
+      messagingSenderId: "293549056941",
+      appId: "1:293549056941:web:2af73898c94c98bf89f724",
+      measurementId: "G-CLQQLM3J74"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    document.getElementById('register-btn').addEventListener('click', function() {
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert("Registration successful! Welcome, " + user.email);
+          window.location.href = "user.html";
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("Error during registration: ", errorCode, errorMessage);
+          alert("Error: " + errorMessage);
+        });
+    });
+
+    document.getElementById('login-btn').addEventListener('click', function() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert("Login successful! Welcome back, " + user.email);
+          window.location.href = "user.html";
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("Error during login: ", errorCode, errorMessage);
+          alert("Error: " + errorMessage);
+        });
+    });
+  </script>
+</body>
+</html>
