@@ -13,74 +13,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-image: url(https://img.freepik.com/free-vector/desert-landscape-background-video-conferencing_23-2148652924.jpg?t=st=1728160497~exp=1728164097~hmac=18f5299da73001e7f3922b471547d5e1eeb77141a6deeeed83523dc413110a1c&w=826);
-      background-size:contain;
-    }
-    .profile-header {
-      text-align: center;
-      margin-bottom: 20px;
-      font-family: 'Press Start 2P', system-ui;
-    }
-    .avatar {
-      vertical-align: middle;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin: 0 auto;
-      max-width: 1200px;
-    }
-    .column {
-      flex: 1;
-      border: 1px solid #dddddd;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: slateblue;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: 'Roboto', sans-serif;
-    }
-    td, th {
-      border: 1px solid #dddddd;
-      padding: 8px;
-      text-align: left;
-      background-color: #3498db;
-      color: white;
-      border: 2px solid #2980b9;
-    }
-    h3 {
-      text-align: center;
-      margin-bottom: 10px;
-      font-family: 'Press Start 2P', system-ui;
-      color:aqua
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #ff1100;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      display: block;
-      margin: 0 auto;
-      font-family: 'Press Start 2P', system-ui;
-    }
-    button:hover {
-      background-color: #d32f2f;
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to an external CSS file if necessary -->
 
+</head>
 <body>
 
   <div class="profile-header">
@@ -121,91 +56,7 @@
 
   <button id="logout-btn">Logout</button>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyALAhnbjODzUtK_sXiU_SDItVn5jkdpMAo",
-      authDomain: "gameandweb-74921.firebaseapp.com",
-      projectId: "gameandweb-74921",
-      storageBucket: "gameandweb-74921.appspot.com",
-      messagingSenderId: "293549056941",
-      appId: "1:293549056941:web:2af73898c94c98bf89f724",
-      measurementId: "G-CLQQLM3J74"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        const userId = user.uid;
-
-        const isGoogleSignIn = user.providerData.some(
-          (provider) => provider.providerId === 'google.com'
-        );
-
-        const userRef = db.collection("Players").doc(userId);
-
-        userRef.get().then((doc) => {
-          if (doc.exists) {
-            const userData = doc.data();
-            console.log("User data:", userData);
-
-            const displayName = isGoogleSignIn ? user.displayName : user.email;
-            document.getElementById('user-name').innerText = `${displayName} (Level ${userData.level})`;
-
-            populateAchievements(userData.achievement);
-            populateStats(userData.stats);
-            populateLoot(userData.equipment);
-          }
-        }).catch((error) => {
-          console.log("Error getting user document:", error);
-        });
-
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-
-    function populateAchievements(achievements) {
-      const achievementTable = document.getElementById('achievement-table');
-      for (let achievement in achievements) {
-        let newRow = achievementTable.insertRow();
-        let achievementCell = newRow.insertCell(0);
-        let statusCell = newRow.insertCell(1);
-        achievementCell.innerText = achievement;
-        statusCell.innerText = achievements[achievement] ? "Completed" : "Not Completed";
-      }
-    }
-
-    function populateStats(stats) {
-      const statsTable = document.getElementById('stats-table');
-      for (let stat in stats) {
-        let newRow = statsTable.insertRow();
-        let statCell = newRow.insertCell(0);
-        let statusCell = newRow.insertCell(1);
-        statCell.innerText = stat;
-        statusCell.innerText = stats[stat];
-      }
-    }
-
-    function populateLoot(equipment) {
-      const lootTable = document.getElementById('loot-table');
-      equipment.forEach(item => {
-        let newRow = lootTable.insertRow();
-        let lootCell = newRow.insertCell(0);
-        lootCell.innerText = item;
-      });
-    }
-
-    document.getElementById('logout-btn').addEventListener('click', function() {
-      auth.signOut().then(() => {
-        window.location.href = "index.html";
-      }).catch((error) => {
-        console.log("Error during logout: ", error);
-      });
-    });
-  </script>
+  <script src="user.js"></script>
 
 </body>
 </html>
