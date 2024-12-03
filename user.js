@@ -54,13 +54,47 @@ const firebaseConfig = {
   
   function populateStats(stats) {
     const statsTable = document.getElementById('stats-table');
+    let kills = stats.kills || 0;
+    let deaths = stats.deaths || 0;
+
     for (let stat in stats) {
       let newRow = statsTable.insertRow();
       let statCell = newRow.insertCell(0);
-      let statusCell = newRow.insertCell(1);
+      let valueCell = newRow.insertCell(1);
       statCell.innerText = stat;
-      statusCell.innerText = stats[stat];
+      valueCell.innerText = stats[stat];
     }
+
+    const ctx = document.getElementById('kills-deaths-chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Kills', 'Deaths'],
+        datasets: [{
+          data: [kills, deaths],
+          backgroundColor: ['#4caf50', '#f44336'],
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function (tooltipItem) {
+                const label = tooltipItem.label || '';
+                const value = tooltipItem.raw || 0;
+                const total = kills + deaths;
+                const percentage = total ? ((value / total) * 100).toFixed(1) : 0;
+                return `${label}: ${value} (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
   }
   
   function populateLoot(equipment) {

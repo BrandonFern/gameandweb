@@ -8,6 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -79,13 +80,16 @@
     button:hover {
       background-color: #d32f2f;
     }
+    canvas {
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
 
   <div class="profile-header">
     <h2 id="user-name">User Name</h2>
-    <img src="https://static-00.iconduck.com/assets.00/person-icon-2048x1935-84jiekjd.png" alt="Avatar" class="avatar" />
   </div>
 
   <div class="container">
@@ -107,6 +111,8 @@
           <th>Value</th>
         </tr>
       </table>
+      <h3> </h3>
+      <canvas id="kills-deaths-chart" width="200" height="200"></canvas>
     </div>
 
     <div class="column">
